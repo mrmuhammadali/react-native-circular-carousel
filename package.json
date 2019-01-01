@@ -1,0 +1,86 @@
+{
+  "name": "react-native-circular-carousal",
+  "version": "1.0.6",
+  "description": "Circular Carousal component for React Native",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "react-native": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "build": "babel --no-babelrc --plugins=syntax-jsx,syntax-class-properties,syntax-object-rest-spread,transform-flow-strip-types src --copy-files --out-dir dist --ignore '**/__tests__/**'",
+    "prepare": "yarn build",
+    "release": "release-it"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "react-native-component",
+    "react-component",
+    "react-native",
+    "ios",
+    "android",
+    "stack"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrmuhammadali/react-native-circular-carousal.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrmuhammadali/react-native-circular-carousal/issues"
+  },
+  "homepage": "https://github.com/mrmuhammadali/react-native-circular-carousal#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-react-native": "^4.0.0",
+    "conventional-changelog-cli": "^2.0.5",
+    "eslint": "^4.12.1",
+    "eslint-config-satya164": "^1.0.1",
+    "eslint-plugin-react-native-globals": "^0.1.0",
+    "husky": "^0.14.3",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11",
+    "mathjs": "^5.4.0",
+    "prettier": "^1.8.2",
+    "react": "16.6.3",
+    "react-dom": "16.3.3",
+    "react-native": "^0.57.7",
+    "react-test-renderer": "16.6.3",
+    "release-it": "^7.6.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "jest": {
+    "preset": "react-native",
+    "testRegex": "/__tests__/[^/]+-test\\.js$",
+    "setupFiles": [
+      "<rootDir>/jest-setup.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "jest-setup.js"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
+  }
+}

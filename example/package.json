@@ -1,0 +1,28 @@
+{
+  "name": "stackexample",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "postinstall": "rm -rf node_modules/expo-react-native-adapter/node_modules/react && rm -rf node_modules/expo-gl/node_modules/react"
+  },
+  "dependencies": {
+    "expo": "~30.0.0",
+    "lodash": "^4.17.11",
+    "mathjs": "^5.4.0",
+    "react": "^16.7.0",
+    "react-native": "~0.55.4"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-expo": "^4.0.0",
+    "glob-to-regexp": "^0.4.0"
+  },
+  "main": "App.js",
+  "resolutions": {
+    "**/react": "16.7.0",
+    "**/react-lifecycles-compat": "3.0.4"
+  }
+}
