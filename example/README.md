@@ -1,6 +1,6 @@
 ## Run the example
 
-- [View it with Expo](https://expo.io/@satya164/react-navigation-tabs-demos)
+- [View it with Expo](https://expo.io/@mrmuhammadali/react-native-circular-carousal)
 - Run the example locally
   + Clone the repository and `cd` to this directory
   + Run `yarn` to install the dependencies
