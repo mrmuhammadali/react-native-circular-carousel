@@ -1,5 +1,12 @@
 // src
 
+export type DropAreaLayout = {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+};
+
 export type CarousalItemData = {
   X?: number,
   Y?: number,
@@ -14,8 +21,6 @@ export type CarousalItemData = {
 
 export type CircularCarousalProps = {
   dataSource: {}[],
-  renderItem?: (data: any) => JSX.Element,
-  onItemPress?: (index: number) => void,
   style?: {
     height?: number,
     width?: number,
@@ -24,11 +29,16 @@ export type CircularCarousalProps = {
     height?: number,
     width?: number,
   },
-  radius: number,
+  radius?: number,
+  dropAreaLayout: DropAreaLayout,
+  renderItem?: (data: any) => JSX.Element,
+  onItemPress?: (index: number) => void,
+  onItemDrop?: (index: number) => void,
 };
 
 export type CircularCarousalState = {
   yMargins: { min: number, max: number },
   frontItemIndex: number,
   items: CarousalItemData[],
+  isDragging: boolean,
 };

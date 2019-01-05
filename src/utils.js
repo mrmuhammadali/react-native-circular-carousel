@@ -1,5 +1,6 @@
 // libs
 import flow from 'lodash/fp/flow';
+import inRange from 'lodash/inRange';
 import isEqual from 'lodash/isEqual';
 import Math from 'mathjs';
 import reduce from 'lodash/fp/reduce';
@@ -165,3 +166,31 @@ export function arrangeItemsInCircle(
     rearrangeItemsDimensions(itemStyle, yMargins)
   )(items);
 }
+
+export const isCollidingWithDropArea = (
+  dropAreaLayout: DropAreaLayout,
+  gesture: PanResponderGestureState,
+  item: CarousalItemData
+) => {
+  const dAX0 = dropAreaLayout.x - 10;
+  const dAX1 = dAX0 + dropAreaLayout.width + 20;
+  const dAY0 = dropAreaLayout.y - 10;
+  const dAY1 = dAY0 + dropAreaLayout.height + 20;
+  const x0 = item.X;
+  const x1 = x0 + item.w;
+  const y0 = (x0 + x1) / 2;
+  const y1 = y0 + item.h;
+  const dx0 = gesture.x0 - x0;
+  const dx1 = x1 - gesture.x0;
+  const dy0 = gesture.y0 - y0;
+  const dy1 = y1 - gesture.y0;
+  const mx0 = gesture.moveX - dx0;
+  const mx1 = gesture.moveX + dx1;
+  const my0 = gesture.moveY - dy0;
+  const my1 = gesture.moveY + dy1;
+
+  return (
+    (inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)) &&
+    (inRange(my0, dAY0, dAY1) || inRange(my1, dAY0, dAY1))
+  );
+};

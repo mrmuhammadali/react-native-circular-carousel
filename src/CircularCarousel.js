@@ -67,6 +67,7 @@ export default class CircularCarousel extends React.Component<
       items,
       frontItemIndex: 0,
       yMargins: { min: items[items.length - 1].Y, max: items[0].Y },
+      isDragging: false,
     };
   }
 
@@ -171,9 +172,7 @@ export default class CircularCarousel extends React.Component<
 
       onPanResponderRelease: () => {
         const { items } = this.state;
-        // @ts-ignore
         const maxYItem = maxBy('Y')(items);
-        // @ts-ignore
         const frontItemIndex = findIndex(maxYItem)(items);
 
         this.rotateCarousel(frontItemIndex);
@@ -185,7 +184,7 @@ export default class CircularCarousel extends React.Component<
     this.panResponder = panResponder;
   }
 
-  itemPressed = (index: number): void => {
+  handleItemPress = (index: number): void => {
     const { frontItemIndex } = this.state;
     const { onItemPress } = this.props;
 
@@ -197,23 +196,40 @@ export default class CircularCarousel extends React.Component<
     this.rotateCarousel(index);
   };
 
+  handleItemDrop = (index: number): void => {
+    const { onItemDrop } = this.props;
+
+    if (onItemDrop) {
+      onItemDrop(index);
+    }
+  };
+
+  setItemDraggingState = (isDragging: boolean) => {
+    if (isDragging !== this.state.isDragging) {
+      this.setState(() => ({ isDragging }));
+    }
+  };
+
   render() {
-    const { items } = this.state;
-    const { renderItem, style = {} } = this.props;
-    const panHandlers = this.panResponder.panHandlers;
+    const { items, frontItemIndex, isDragging } = this.state;
+    const { style = {}, dropAreaLayout, renderItem, onItemDrop } = this.props;
+    const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
 
     return (
       <View style={[styles.containerStyle, style]} {...panHandlers}>
         {items.map(({ data, ...item }, index) => (
           <CarousalItemWrapper
             key={index}
+            isDraggable={
+              frontItemIndex === index && onItemDrop && dropAreaLayout
+            }
             data={data}
-            index={index}
             item={item}
-            itemPressed={() => {
-              this.itemPressed(index);
-            }}
+            dropAreaLayout={dropAreaLayout}
             renderItem={renderItem}
+            onItemPress={() => this.handleItemPress(index)}
+            onItemDrop={() => this.handleItemDrop(index)}
+            setItemDraggingState={this.setItemDraggingState}
           />
         ))}
       </View>

@@ -1,12 +1,12 @@
+// libs
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  image: {
+  item: {
+    backgroundColor: '#eee',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    padding: 10,
-    borderRadius: 15,
+    // borderRadius: 100,
   },
 });
