@@ -1,5 +1,5 @@
 {
-  "name": "react-native-circular-Carousel",
+  "name": "react-native-circular-carousel",
   "version": "0.0.5",
   "description": "Circular Carousel component for React Native",
   "main": "dist/index.js",
@@ -31,14 +31,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrmuhammadali/react-native-circular-Carousel.git"
+    "url": "git+https://github.com/mrmuhammadali/react-native-circular-carousel.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrmuhammadali/react-native-circular-Carousel/issues"
+    "url": "https://github.com/mrmuhammadali/react-native-circular-carousel/issues"
   },
-  "homepage": "https://github.com/mrmuhammadali/react-native-circular-Carousel#readme",
+  "homepage": "https://github.com/mrmuhammadali/react-native-circular-carousel#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.4.1",

@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularCarousel from 'react-native-circular-Carousel';
+import CircularCarousel from 'react-native-circular-carousel';
 import { registerRootComponent } from 'expo';
 import { Text, View } from 'react-native';
 
