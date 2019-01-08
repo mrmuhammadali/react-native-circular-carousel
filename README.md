@@ -52,5 +52,5 @@ const dataSource = [
 
 #### Thanks to contributors:
 
-[Shamshad Khan](https://github.com/khanshamshad32)
-[Umar Ashfaq](https://github.com/umarashfaq)
+- [Shamshad Khan](https://github.com/khanshamshad32)
+- [Umar Ashfaq](https://github.com/umarashfaq)
