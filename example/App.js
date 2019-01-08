@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularCarousal from 'react-native-circular-carousal';
+import CircularCarousel from 'react-native-circular-Carousel';
 import { registerRootComponent } from 'expo';
 import { Text, View } from 'react-native';
 
@@ -39,7 +39,7 @@ class Home extends React.Component {
             justifyContent: 'center',
           }}
         >
-          <CircularCarousal
+          <CircularCarousel
             style={{ width: 350 }}
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}

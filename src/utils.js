@@ -9,7 +9,7 @@ import some from 'lodash/fp/some';
 import times from 'lodash/times';
 
 // src
-import { CarousalItemData } from './types';
+import { CarouselItemData } from './types';
 
 /**
  *
@@ -55,9 +55,9 @@ function calculateItemsPositions(
   radius: number,
   containerWidth: number,
   itemStyle: { width: number, height: number }
-): (items: CarousalItemData[]) => CarousalItemData[] {
-  return (items: CarousalItemData[]) => {
-    return items.map(({ index: __index__, ...item }: CarousalItemData) => {
+): (items: CarouselItemData[]) => CarouselItemData[] {
+  return (items: CarouselItemData[]) => {
+    return items.map(({ index: __index__, ...item }: CarouselItemData) => {
       const index = __index__ || 0;
       const q = ((index * 360) / size(items) + angle) % 360;
       const alpha = q * (Math.pi / 180);
@@ -73,7 +73,7 @@ function calculateItemsPositions(
 
 export function getItemScalingCoefficient(
   yMargins: { min: number, max: number },
-  item: CarousalItemData
+  item: CarouselItemData
 ): number {
   const { min, max } = yMargins;
   let d = (max - min) * 9;
@@ -93,11 +93,11 @@ function rescale(A: number, B: number, C: number, D: number, x: number) {
 function rearrangeItemsDimensions(
   itemStyle: { width: number, height: number },
   yMargins: { min: number, max: number }
-): (items: CarousalItemData[]) => CarousalItemData[] {
+): (items: CarouselItemData[]) => CarouselItemData[] {
   const { width, height } = itemStyle;
 
-  return (items: CarousalItemData[]) => {
-    return items.map((item: CarousalItemData) => {
+  return (items: CarouselItemData[]) => {
+    return items.map((item: CarouselItemData) => {
       const coefficient = getItemScalingCoefficient(yMargins, item);
       const newWidth = width * coefficient;
       const diff = width - newWidth;
@@ -115,12 +115,12 @@ function rearrangeItemsDimensions(
   };
 }
 
-export function initializeCarousalItems(
+export function initializeCarouselItems(
   radius: number,
   containerWidth: number,
   itemStyle: { width: number, height: number },
   dataSource: {}[]
-): CarousalItemData[] {
+): CarouselItemData[] {
   return flow(
     (thisItems: {}[]) =>
       thisItems.map((data: {}, index: number) => ({ data, index })),
@@ -155,12 +155,12 @@ export function arrangeItemsInCircle(
   containerWidth: number,
   itemStyle: { width: number, height: number },
   yMargins: { min: number, max: number },
-  items: CarousalItemData[]
-): CarousalItemData[] {
+  items: CarouselItemData[]
+): CarouselItemData[] {
   const indices = getItemsIndices(frontIndex)(size(items));
 
   return flow(
-    (thisItems: CarousalItemData[]) =>
+    (thisItems: CarouselItemData[]) =>
       thisItems.map((item, index) => ({ ...item, index: indices[index] })),
     calculateItemsPositions(angle, radius, containerWidth, itemStyle),
     rearrangeItemsDimensions(itemStyle, yMargins)
@@ -170,7 +170,7 @@ export function arrangeItemsInCircle(
 export const isCollidingWithDropArea = (
   dropAreaLayout: DropAreaLayout,
   gesture: PanResponderGestureState,
-  item: CarousalItemData
+  item: CarouselItemData
 ) => {
   const dAX0 = dropAreaLayout.x - 10;
   const dAX1 = dAX0 + dropAreaLayout.width + 20;

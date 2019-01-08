@@ -15,16 +15,16 @@ import Math from 'mathjs';
 
 // src
 import {
-  CarousalItemData,
-  CircularCarousalProps,
-  CircularCarousalState,
+  CarouselItemData,
+  CircularCarouselProps,
+  CircularCarouselState,
 } from './types';
-import CarousalItemWrapper from './CarousalItemWrapper';
+import CarouselItemWrapper from './CarouselItemWrapper';
 import {
   arrangeItemsInCircle,
   getStyles,
   hasPropChanged,
-  initializeCarousalItems,
+  initializeCarouselItems,
 } from './utils';
 
 const styles = {
@@ -41,8 +41,8 @@ const ROTATION_RATE = Platform.OS === 'ios' ? 5 : 10;
 const PAN_ROTATION_RATE = 1;
 
 export default class CircularCarousel extends React.Component<
-  CircularCarousalProps,
-  CircularCarousalState
+  CircularCarouselProps,
+  CircularCarouselState
 > {
   panResponder: PanResponderInstance | { panHandlers: {} } = {
     panHandlers: {},
@@ -52,11 +52,11 @@ export default class CircularCarousel extends React.Component<
     radius: 100,
   };
 
-  constructor(props: CircularCarousalProps) {
+  constructor(props: CircularCarouselProps) {
     super(props);
     const { dataSource, radius } = props;
     const { style, itemStyle } = getStyles(props);
-    const items: CarousalItemData[] = initializeCarousalItems(
+    const items: CarouselItemData[] = initializeCarouselItems(
       radius,
       style.width,
       itemStyle,
@@ -77,13 +77,13 @@ export default class CircularCarousel extends React.Component<
     this.addPanGesture();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: CircularCarousalProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CircularCarouselProps) {
     const { dataSource, radius } = nextProps;
     if (dataSource.length < 1) {
       this.setState(() => ({ items: [] }));
     } else if (hasPropChanged('dataSource', this.props, nextProps)) {
       const { style, itemStyle } = getStyles(nextProps);
-      const items: CarousalItemData[] = initializeCarousalItems(
+      const items: CarouselItemData[] = initializeCarouselItems(
         radius,
         style.width,
         itemStyle,
@@ -99,7 +99,7 @@ export default class CircularCarousel extends React.Component<
     angle: number,
     frontItemIndex: number,
     yMargins: { min: number, max: number },
-    prevItems: CarousalItemData[]
+    prevItems: CarouselItemData[]
   ): void {
     const { radius } = this.props;
     const {
@@ -218,7 +218,7 @@ export default class CircularCarousel extends React.Component<
     return (
       <View style={[styles.containerStyle, style]} {...panHandlers}>
         {items.map(({ data, ...item }, index) => (
-          <CarousalItemWrapper
+          <CarouselItemWrapper
             key={index}
             isDraggable={
               frontItemIndex === index && onItemDrop && dropAreaLayout

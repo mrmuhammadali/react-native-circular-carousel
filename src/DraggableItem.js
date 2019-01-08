@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 
 // src
-import { CarousalItemData, DropAreaLayout } from './types';
+import { CarouselItemData, DropAreaLayout } from './types';
 import { isCollidingWithDropArea } from './utils';
 
 type Props = {
-  item: CarousalItemData,
+  item: CarouselItemData,
   dropAreaLayout: DropAreaLayout,
   onDrop: () => void,
   onPress: () => void,

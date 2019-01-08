@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 
 // src
-import CarousalItem from './CarousalItem';
-import { CarousalItemData, DropAreaLayout } from './types';
+import CarouselItem from './CarouselItem';
+import { CarouselItemData, DropAreaLayout } from './types';
 import DraggableItem from './DraggableItem';
 
 type Props = {
   isDraggable: boolean,
-  item: CarousalItemData,
+  item: CarouselItemData,
   data: any,
   dropAreaLayout: DropAreaLayout,
   renderItem?: (data: any) => JSX.Element,
@@ -23,7 +23,7 @@ type Props = {
   setItemDraggingState: (isDragging: boolean) => void,
 };
 
-const CarousalItemWrapper = (props: Props) => {
+const CarouselItemWrapper = (props: Props) => {
   const {
     isDraggable,
     item,
@@ -47,12 +47,12 @@ const CarousalItemWrapper = (props: Props) => {
     justifyContent: 'center',
     alignItems: 'center',
   };
-  let CarousalItemView = renderItem ? (
+  let CarouselItemView = renderItem ? (
     renderItem(data)
   ) : (
-    <CarousalItem data={data} />
+    <CarouselItem data={data} />
   );
-  CarousalItemView = isDraggable ? (
+  CarouselItemView = isDraggable ? (
     <DraggableItem
       data={data}
       item={item}
@@ -61,25 +61,25 @@ const CarousalItemWrapper = (props: Props) => {
       onDrop={onItemDrop}
       setDraggingState={setItemDraggingState}
     >
-      {CarousalItemView}
+      {CarouselItemView}
     </DraggableItem>
   ) : (
-    CarousalItemView
+    CarouselItemView
   );
 
   if (Platform.OS === 'ios') {
     return (
       <TouchableWithoutFeedback onPress={onItemPress}>
-        <View style={wrapperStyle}>{CarousalItemView}</View>
+        <View style={wrapperStyle}>{CarouselItemView}</View>
       </TouchableWithoutFeedback>
     );
   }
 
   return (
     <TouchableNativeFeedback onPress={onItemPress}>
-      <View style={wrapperStyle}>{CarousalItemView}</View>
+      <View style={wrapperStyle}>{CarouselItemView}</View>
     </TouchableNativeFeedback>
   );
 };
 
-export default CarousalItemWrapper;
+export default CarouselItemWrapper;

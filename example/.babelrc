@@ -5,7 +5,7 @@
   "plugins": [
     ["module-resolver", {
       "alias": {
-        "react-native-circular-carousal": "../src"
+        "react-native-circular-Carousel": "../src"
       }
     }]
   ]

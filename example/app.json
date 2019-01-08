@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "React Navigation Stack Example",
-    "description": "Demonstrates the various capabilities of react-native-circular-carousal",
-    "slug": "react-native-circular-carousal-demo",
+    "description": "Demonstrates the various capabilities of react-native-circular-Carousel",
+    "slug": "react-native-circular-Carousel-demo",
     "sdkVersion": "30.0.0",
     "version": "1.0.0",
     "primaryColor": "#2196f3",

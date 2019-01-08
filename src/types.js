@@ -7,7 +7,7 @@ export type DropAreaLayout = {
   height: number,
 };
 
-export type CarousalItemData = {
+export type CarouselItemData = {
   X?: number,
   Y?: number,
   angle?: number,
@@ -19,7 +19,7 @@ export type CarousalItemData = {
   data?: {},
 };
 
-export type CircularCarousalProps = {
+export type CircularCarouselProps = {
   dataSource: {}[],
   style?: {
     height?: number,
@@ -36,9 +36,9 @@ export type CircularCarousalProps = {
   onItemDrop?: (index: number) => void,
 };
 
-export type CircularCarousalState = {
+export type CircularCarouselState = {
   yMargins: { min: number, max: number },
   frontItemIndex: number,
-  items: CarousalItemData[],
+  items: CarouselItemData[],
   isDragging: boolean,
 };
