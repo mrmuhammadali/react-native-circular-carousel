@@ -17,14 +17,23 @@ npm install --save react-native-circular-carousal
 ## Usage
 
 ```js
-import CircularCarousal from 'react-native-circular-carousal';
+
+import CircularCarousal from  'react-native-circular-carousal';
+
+const dataSource = [
+  {name: 'Ahmed'},
+  {name: 'Ali'},
+  {name: 'Umar'},
+  {name: 'Bilal'}
+]
 
 <CircularCarousal
-  style={{ width: 350 }}
-  dataSource={entries}
-  renderItem={data => <CarousalItem data={data} />}
-  onItemPress={handleItemPress}
+	style={{ width: 350 }}
+	dataSource={dataSource}
+	renderItem={(data) => <CarousalItem data={data} />}
+	onItemPress={handleItemPress}
 />;
+
 ```
 
 ## Props
