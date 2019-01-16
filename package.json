@@ -1,6 +1,6 @@
 {
   "name": "react-native-circular-carousel",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Circular Carousel component for React Native",
   "main": "dist/index.js",
   "files": [
@@ -39,6 +39,9 @@
     "url": "https://github.com/mrmuhammadali/react-native-circular-carousel/issues"
   },
   "homepage": "https://github.com/mrmuhammadali/react-native-circular-carousel#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.4.1",
@@ -51,10 +54,7 @@
     "eslint": "^4.12.1",
     "eslint-config-satya164": "^1.0.1",
     "eslint-plugin-react-native-globals": "^0.1.0",
-    "husky": "^0.14.3",
     "jest": "^23.6.0",
-    "lodash": "^4.17.11",
-    "mathjs": "^5.4.0",
     "prettier": "^1.8.2",
     "react": "16.6.3",
     "react-dom": "16.3.3",

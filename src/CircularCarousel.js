@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import findIndex from 'lodash/fp/findIndex';
 import maxBy from 'lodash/fp/maxBy';
-import Math from 'mathjs';
 
 // src
 import {

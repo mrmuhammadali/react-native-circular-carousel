@@ -2,7 +2,6 @@
 import flow from 'lodash/fp/flow';
 import inRange from 'lodash/inRange';
 import isEqual from 'lodash/isEqual';
-import Math from 'mathjs';
 import reduce from 'lodash/fp/reduce';
 import size from 'lodash/fp/size';
 import some from 'lodash/fp/some';
@@ -29,7 +28,7 @@ export const hasPropChanged = (
   return some(value => !isEqual(thisProps[value], nextProps[value]))(key);
 };
 
-const ELEVATION_CONSTANT = Math.cos(Math.pi / 2.3);
+const ELEVATION_CONSTANT = Math.cos(Math.PI / 2.3);
 
 type GetStylesProps = {
   style?: {},
@@ -60,7 +59,7 @@ function calculateItemsPositions(
     return items.map(({ index: __index__, ...item }: CarouselItemData) => {
       const index = __index__ || 0;
       const q = ((index * 360) / size(items) + angle) % 360;
-      const alpha = q * (Math.pi / 180);
+      const alpha = q * (Math.PI / 180);
       const sinalpha = Math.sin(alpha);
       const cosalpha = Math.cos(alpha);
       const x = radius * sinalpha + (containerWidth / 2 - itemStyle.width / 2);
