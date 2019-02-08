@@ -171,13 +171,13 @@ export const isCollidingWithDropArea = (
   gesture: PanResponderGestureState,
   item: CarouselItemData
 ) => {
-  const dAX0 = dropAreaLayout.x - 10;
-  const dAX1 = dAX0 + dropAreaLayout.width + 20;
-  const dAY0 = dropAreaLayout.y - 10;
-  const dAY1 = dAY0 + dropAreaLayout.height + 20;
+  const dAX0 = dropAreaLayout.x;
+  const dAX1 = dAX0 + dropAreaLayout.width;
+  const dAY0 = dropAreaLayout.y;
+  const dAY1 = dAY0 + dropAreaLayout.height;
   const x0 = item.X;
-  const x1 = x0 + item.w;
-  const y0 = (x0 + x1) / 2;
+  const x1 = x0 + 140;
+  const y0 = item.Y;
   const y1 = y0 + item.h;
   const dx0 = gesture.x0 - x0;
   const dx1 = x1 - gesture.x0;
@@ -187,6 +187,8 @@ export const isCollidingWithDropArea = (
   const mx1 = gesture.moveX + dx1;
   const my0 = gesture.moveY - dy0;
   const my1 = gesture.moveY + dy1;
+  console.log('x0=>', mx0, item);
+  console.log('x1=>', mx1, dAX0, dAX1);
 
   return (
     (inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)) &&

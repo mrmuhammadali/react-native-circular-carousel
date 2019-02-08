@@ -1,14 +1,20 @@
 // libs
-import * as React from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
 // src
 import styles from './CarouselItemStyles';
 
-const CarouselItem = ({ data }: { data: string }) => (
-  <View style={styles.item}>
-    <Text>{data}</Text>
-  </View>
-);
+type CarouselItemProps = {
+  data: string,
+};
+
+const CarouselItem = ({ data }: CarouselItemProps) => {
+  return (
+    <View style={styles.slideContainer}>
+      <Text style={styles.text}>{data}</Text>
+    </View>
+  );
+};
 
 export default CarouselItem;

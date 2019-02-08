@@ -20,7 +20,9 @@ type Props = {
   renderItem?: (data: any) => JSX.Element,
   onItemPress: () => void,
   onItemDrop: () => void,
+  onItemLayoutChange: (event: any) => void,
   setItemDraggingState: (isDragging: boolean) => void,
+  setItemCollision: (isColliding: boolean) => void,
 };
 
 const CarouselItemWrapper = (props: Props) => {
@@ -32,7 +34,9 @@ const CarouselItemWrapper = (props: Props) => {
     renderItem,
     onItemPress,
     onItemDrop,
+    onItemLayoutChange,
     setItemDraggingState,
+    setItemCollision,
   } = props;
   const { h, opacity, w, X, Y, zIndex } = item;
   const wrapperStyle = {
@@ -48,7 +52,7 @@ const CarouselItemWrapper = (props: Props) => {
     alignItems: 'center',
   };
   let CarouselItemView = renderItem ? (
-    renderItem(data)
+    renderItem(data, onItemLayoutChange)
   ) : (
     <CarouselItem data={data} />
   );
@@ -60,6 +64,7 @@ const CarouselItemWrapper = (props: Props) => {
       onPress={onItemPress}
       onDrop={onItemDrop}
       setDraggingState={setItemDraggingState}
+      setItemCollision={setItemCollision}
     >
       {CarouselItemView}
     </DraggableItem>

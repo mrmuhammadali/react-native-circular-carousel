@@ -42,11 +42,22 @@ export default class DraggableItem extends React.Component<Props, State> {
         e: GestureResponderEvent,
         gesture: PanResponderGestureState
       ) => {
-        const { setDraggingState } = this.props;
+        const {
+          dropAreaLayout,
+          item,
+          setDraggingState,
+          setItemCollision,
+        } = this.props;
         const { moveY, y0 } = gesture;
 
         if (moveY - y0 > 20) {
           setDraggingState(true);
+
+          if (setItemCollision) {
+            setItemCollision(
+              isCollidingWithDropArea(dropAreaLayout, gesture, item)
+            );
+          }
 
           return Animated.event([null, { dx: pan.x, dy: pan.y }])(e, gesture);
         }

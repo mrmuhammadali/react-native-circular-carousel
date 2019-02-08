@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import findIndex from 'lodash/fp/findIndex';
+import inRange from 'lodash/fp/inRange';
 import maxBy from 'lodash/fp/maxBy';
 
 // src
@@ -67,6 +68,7 @@ export default class CircularCarousel extends React.Component<
       frontItemIndex: 0,
       yMargins: { min: items[items.length - 1].Y, max: items[0].Y },
       isDragging: false,
+      itemLayout: {},
     };
   }
 
@@ -203,6 +205,20 @@ export default class CircularCarousel extends React.Component<
     }
   };
 
+  handleItemLayoutChange = event => {
+    const { layout } = event.nativeEvent;
+    const { itemLayout, items } = this.state;
+
+    if (
+      !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
+      !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
+    ) {
+      console.log(items[0], layout);
+
+      this.setState(() => ({ itemLayout: layout }));
+    }
+  };
+
   setItemDraggingState = (isDragging: boolean) => {
     if (isDragging !== this.state.isDragging) {
       this.setState(() => ({ isDragging }));
@@ -211,7 +227,13 @@ export default class CircularCarousel extends React.Component<
 
   render() {
     const { items, frontItemIndex, isDragging } = this.state;
-    const { style = {}, dropAreaLayout, renderItem, onItemDrop } = this.props;
+    const {
+      style = {},
+      dropAreaLayout,
+      renderItem,
+      onItemDrop,
+      setItemCollision,
+    } = this.props;
     const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
 
     return (
@@ -228,7 +250,9 @@ export default class CircularCarousel extends React.Component<
             renderItem={renderItem}
             onItemPress={() => this.handleItemPress(index)}
             onItemDrop={() => this.handleItemDrop(index)}
+            onItemLayoutChange={this.handleItemLayoutChange}
             setItemDraggingState={this.setItemDraggingState}
+            setItemCollision={setItemCollision}
           />
         ))}
       </View>
