@@ -7,6 +7,13 @@ export type DropAreaLayout = {
   height: number,
 };
 
+export type Layout = {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+};
+
 export type CarouselItemData = {
   X?: number,
   Y?: number,
@@ -34,6 +41,7 @@ export type CircularCarouselProps = {
   renderItem?: (data: any) => JSX.Element,
   onItemPress?: (index: number) => void,
   onItemDrop?: (index: number) => void,
+  setItemCollision?: (isColliding: boolean) => void,
 };
 
 export type CircularCarouselState = {
@@ -41,4 +49,5 @@ export type CircularCarouselState = {
   frontItemIndex: number,
   items: CarouselItemData[],
   isDragging: boolean,
+  itemLayout: Layout,
 };

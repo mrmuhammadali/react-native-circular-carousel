@@ -2,15 +2,19 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   slideContainer: {
-    height: 110,
-    width: 110,
+    height: 170,
+    width: 170,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  slides: {
+    height: 128,
+    width: 128,
     borderRadius: 64,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#eee',
   },
   text: {
     color: '#ff0000',
-    bottom: -5,
   },
 });
