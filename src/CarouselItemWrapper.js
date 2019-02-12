@@ -20,7 +20,6 @@ type Props = {
   renderItem?: (data: any) => JSX.Element,
   onItemPress: () => void,
   onItemDrop: () => void,
-  onItemLayoutChange: (event: any) => void,
   setItemDraggingState: (isDragging: boolean) => void,
   setItemCollision: (isColliding: boolean) => void,
 };
@@ -34,7 +33,6 @@ const CarouselItemWrapper = (props: Props) => {
     renderItem,
     onItemPress,
     onItemDrop,
-    onItemLayoutChange,
     setItemDraggingState,
     setItemCollision,
   } = props;
@@ -47,12 +45,9 @@ const CarouselItemWrapper = (props: Props) => {
     width: w,
     height: h,
     position: 'absolute',
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   };
   let CarouselItemView = renderItem ? (
-    renderItem(data, onItemLayoutChange)
+    renderItem(data)
   ) : (
     <CarouselItem data={data} />
   );

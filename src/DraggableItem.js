@@ -1,14 +1,11 @@
 // libs
 import * as React from 'react';
-import inRange from 'lodash/inRange';
 import {
   Animated,
-  Dimensions,
   GestureResponderEvent,
   PanResponder,
   PanResponderGestureState,
   PanResponderInstance,
-  View,
 } from 'react-native';
 
 // src
@@ -57,7 +54,6 @@ export default class DraggableItem extends React.Component<Props, State> {
 
         if (moveY - y0 > 20) {
           setDraggingState(true);
-          // console.log(item);
 
           if (setItemCollision) {
             setItemCollision(
@@ -102,16 +98,8 @@ export default class DraggableItem extends React.Component<Props, State> {
 
   handleItemLayoutChange = event => {
     const { layout } = event.nativeEvent;
-    const { itemLayout } = this.state;
-
-    // if (
-    //   !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
-    //   !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
-    // ) {
-    console.log(layout);
 
     this.setState(() => ({ itemLayout: layout }));
-    // }
   };
 
   render() {

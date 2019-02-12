@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import findIndex from 'lodash/fp/findIndex';
-import inRange from 'lodash/fp/inRange';
 import maxBy from 'lodash/fp/maxBy';
 
 // src
@@ -29,10 +28,7 @@ import {
 
 const styles = {
   containerStyle: {
-    backgroundColor: '#fff',
-    // width: 300,
-    // height: 200,
-    // overflow: 'hidden',
+    backgroundColor: 'transparent',
   },
 };
 
@@ -205,20 +201,6 @@ export default class CircularCarousel extends React.Component<
     }
   };
 
-  // handleItemLayoutChange = event => {
-  //   const { layout } = event.nativeEvent;
-  //   const { itemLayout, items } = this.state;
-
-  //   if (
-  //     !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
-  //     !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
-  //   ) {
-  //     console.log(items[0], layout);
-
-  //     this.setState(() => ({ itemLayout: layout }));
-  //   }
-  // };
-
   setItemDraggingState = (isDragging: boolean) => {
     if (isDragging !== this.state.isDragging) {
       this.setState(() => ({ isDragging }));
@@ -250,7 +232,6 @@ export default class CircularCarousel extends React.Component<
             renderItem={renderItem}
             onItemPress={() => this.handleItemPress(index)}
             onItemDrop={() => this.handleItemDrop(index)}
-            //onItemLayoutChange={this.handleItemLayoutChange}
             setItemDraggingState={this.setItemDraggingState}
             setItemCollision={setItemCollision}
           />

@@ -1,7 +1,7 @@
 import React from 'react';
 import CircularCarousel from 'react-native-circular-carousel';
 import { registerRootComponent } from 'expo';
-import { Image, View, Dimensions } from 'react-native';
+import { Image, View } from 'react-native';
 
 import CarouselItem from './CarouselItem';
 
@@ -16,16 +16,14 @@ const styles = {
   },
   carouselView: {
     alignSelf: 'flex-start',
+    height: 500,
+    zIndex: 1,
   },
   dropArea: {
     position: 'absolute',
     backgroundColor: '#888',
-    // width: '100%',
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // paddingTop: 50,
-    // paddingBottom: 50,
+    bottom: 50,
+    left: 130,
   },
   collidingArea: {
     backgroundColor: 'green',
@@ -85,13 +83,12 @@ class App extends React.Component {
               left: 100,
             }}
           />
+          <Image
+            onLayout={this.handleDropAreaLayoutChange}
+            style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}
+            source={require('./assets/agent.png')}
+          />
         </View>
-
-        <Image
-          onLayout={this.handleDropAreaLayoutChange}
-          style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}
-          source={require('./assets/agent.png')}
-        />
       </View>
     );
   }

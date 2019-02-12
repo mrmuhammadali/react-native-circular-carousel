@@ -15,7 +15,7 @@ type CarousalItemProps = {
   onLayoutChange: (event: any) => void,
 };
 
-const CarouselItem = ({ data, onLayoutChange }: CarousalItemProps) => {
+const CarouselItem = ({ data }: CarousalItemProps) => {
   const { name = '', icon = '', isSelected = false } = data;
 
   return (

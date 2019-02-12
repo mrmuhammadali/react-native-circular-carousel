@@ -6,12 +6,9 @@ import reduce from 'lodash/fp/reduce';
 import size from 'lodash/fp/size';
 import some from 'lodash/fp/some';
 import times from 'lodash/times';
-import { Dimensions } from 'react-native';
 
 // src
 import { CarouselItemData } from './types';
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 /**
  *
@@ -67,7 +64,6 @@ function calculateItemsPositions(
       const cosalpha = Math.cos(alpha);
       const x = radius * sinalpha + (containerWidth / 2 - itemStyle.width / 2);
       const y = radius * cosalpha * ELEVATION_CONSTANT + itemStyle.height / 3;
-      console.log(index, x, y);
 
       return { ...item, X: x, Y: y, angle: q };
     });
@@ -193,16 +189,12 @@ export const isCollidingWithDropArea = (
   const my0 = gesture.moveY - dy0;
   const my1 = gesture.moveY + dy1;
 
-  console.log('droplayout area', item.X);
-  // console.log('item layout ', screenWidth, screenHeight);
-  // console.log('draggable', x0, x1, y0, y1);
-  // console.log('gesture', gesture.x0, gesture.y0, gesture.moveX, gesture.moveY);
-  // console.log('distance', dx0, dx1, dy0, dy1);
-
-  // console.log('x0=>', mx0, item);
-
   return (
-    (inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)) &&
-    (inRange(my0, dAY0, dAY1) || inRange(my1, dAY0, dAY1))
+    (inRange(mx0, dAX0, dAX1) ||
+      inRange((mx0 + mx1) / 2, dAX0, dAX1) ||
+      inRange(mx1, dAX0, dAX1)) &&
+    (inRange(my0, dAY0, dAY1) ||
+      inRange((my0 + my1) / 2, dAY0, dAY1) ||
+      inRange(my1, dAY0, dAY1))
   );
 };
