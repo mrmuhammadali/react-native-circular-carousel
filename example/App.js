@@ -40,7 +40,6 @@ class App extends React.Component {
       { name: 'Jaguar', icon: require('./assets/jaguar.png') },
     ],
     dropAreaLayout: { width: 0, height: 0, x: 0, y: 0 },
-    itemLayout: { width: 0, height: 0, x: 0, y: 0 },
     isColliding: false,
   };
 
@@ -74,35 +73,10 @@ class App extends React.Component {
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
             setItemCollision={this.setItemCollision}
-            renderItem={(data, onLayoutChange) => (
-              <CarouselItem data={data} onLayoutChange={onLayoutChange} />
-            )}
+            renderItem={data => <CarouselItem data={data} />}
           />
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            top: 100,
-            left: 120,
-            flex: 1,
-            backgroundColor: '#fff',
-            height: 128,
-            width: 128,
-            zIndex: 2,
-          }}
-        />
-        <View
-          style={{
-            position: 'absolute',
-            top: 400,
-            left: 137,
-            flex: 1,
-            backgroundColor: '#fff',
-            height: 20,
-            width: 100,
-            zIndex: 2,
-          }}
-        />
+
         <Image
           onLayout={this.handleDropAreaLayoutChange}
           style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}

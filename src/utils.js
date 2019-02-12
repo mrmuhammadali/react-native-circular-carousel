@@ -6,9 +6,12 @@ import reduce from 'lodash/fp/reduce';
 import size from 'lodash/fp/size';
 import some from 'lodash/fp/some';
 import times from 'lodash/times';
+import { Dimensions } from 'react-native';
 
 // src
 import { CarouselItemData } from './types';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 /**
  *
@@ -169,26 +172,56 @@ export function arrangeItemsInCircle(
 export const isCollidingWithDropArea = (
   dropAreaLayout: DropAreaLayout,
   gesture: PanResponderGestureState,
-  item: CarouselItemData
+  item: CarouselItemData,
+  itemLayout
 ) => {
   const dAX0 = dropAreaLayout.x;
   const dAX1 = dAX0 + dropAreaLayout.width;
   const dAY0 = dropAreaLayout.y;
   const dAY1 = dAY0 + dropAreaLayout.height;
-  const x0 = item.X;
-  const x1 = x0 + 140;
+  const x0 = (screenWidth - itemLayout.width) / 2;
+  const x1 = x0 + itemLayout.width;
   const y0 = item.Y;
-  const y1 = y0 + item.h;
+  const y1 = y0 + itemLayout.height;
   const dx0 = gesture.x0 - x0;
   const dx1 = x1 - gesture.x0;
   const dy0 = gesture.y0 - y0;
   const dy1 = y1 - gesture.y0;
-  const mx0 = gesture.moveX - dx0;
-  const mx1 = gesture.moveX + dx1;
-  const my0 = gesture.moveY - dy0;
-  const my1 = gesture.moveY + dy1;
-  console.log('x0=>', mx0, item);
-  console.log('x1=>', mx1, dAX0, dAX1);
+  const mx0 =
+    gesture.moveX > gesture.x0 ? gesture.moveX - dx0 : gesture.moveX + dx0;
+  const mx1 =
+    gesture.moveX > gesture.x0 ? gesture.moveX + dx1 : gesture.moveX - dx1;
+  const my0 =
+    gesture.moveY > gesture.y0 ? gesture.moveY - dy0 : gesture.moveY + dy0;
+  const my1 =
+    gesture.moveY > gesture.y0 ? gesture.moveY + dy1 : gesture.moveY - dy1;
+
+  console.log(
+    'droplayout area',
+    dAX0,
+    dAX1,
+    dAY0,
+    dAY1,
+    dropAreaLayout.width,
+    dropAreaLayout.height
+  );
+  // console.log('item layout ', screenWidth, screenHeight);
+  // console.log('draggable', x0, x1, y0, y1);
+  // console.log('gesture', gesture.x0, gesture.y0, gesture.moveX, gesture.moveY);
+  // console.log('distance', dx0, dx1, dy0, dy1);
+  console.log('move', mx0, mx1, my0, my1);
+
+  // console.log('x0=>', mx0, item);
+  // console.log('x1=>', mx1, dAX0, dAX1);
+  console.log('new ', gesture.moveX - (dx0 - x0));
+  console.log(
+    'x positions',
+    inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)
+  );
+  console.log(
+    'y positions ',
+    inRange(my0, dAY0, dAY1) || inRange(my1, dAY0, dAY1)
+  );
 
   return (
     (inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)) &&

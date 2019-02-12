@@ -1,5 +1,6 @@
 // libs
 import * as React from 'react';
+import inRange from 'lodash/inRange';
 import {
   Animated,
   GestureResponderEvent,
@@ -27,14 +28,15 @@ type State = {
 export default class DraggableItem extends React.Component<Props, State> {
   panResponder: PanResponderInstance = null;
   _val = null;
-  state = { pan: new Animated.ValueXY() };
+  state = { pan: new Animated.ValueXY(), itemLayout: {} };
 
   UNSAFE_componentWillMount() {
     // Add a listener for the delta value change
     this._val = { x: 0, y: 0 };
-    const { pan } = this.state;
+    const { pan, itemLayout } = this.state;
 
     pan.addListener(value => (this._val = value));
+
     // Initialize PanResponder with move handling
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -55,7 +57,12 @@ export default class DraggableItem extends React.Component<Props, State> {
 
           if (setItemCollision) {
             setItemCollision(
-              isCollidingWithDropArea(dropAreaLayout, gesture, item)
+              isCollidingWithDropArea(
+                dropAreaLayout,
+                gesture,
+                item,
+                this.state.itemLayout
+              )
             );
           }
 
@@ -77,7 +84,14 @@ export default class DraggableItem extends React.Component<Props, State> {
 
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();
-        } else if (isCollidingWithDropArea(dropAreaLayout, gesture, item)) {
+        } else if (
+          isCollidingWithDropArea(
+            dropAreaLayout,
+            gesture,
+            item,
+            this.state.itemLayout
+          )
+        ) {
           onDrop();
         }
         setDraggingState(false);
@@ -91,6 +105,19 @@ export default class DraggableItem extends React.Component<Props, State> {
     pan.setValue({ x: 0, y: 0 });
   }
 
+  handleItemLayoutChange = event => {
+    const { layout } = event.nativeEvent;
+    const { itemLayout } = this.state;
+
+    // if (
+    //   !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
+    //   !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
+    // ) {
+
+    this.setState(() => ({ itemLayout: layout }));
+    // }
+  };
+
   render() {
     const panStyle = {
       transform: this.state.pan.getTranslateTransform(),
@@ -99,7 +126,11 @@ export default class DraggableItem extends React.Component<Props, State> {
     const panHandlers = this.panResponder.panHandlers;
 
     return (
-      <Animated.View {...panHandlers} style={[panStyle]}>
+      <Animated.View
+        {...panHandlers}
+        style={[panStyle]}
+        onLayout={this.handleItemLayoutChange}
+      >
         {children}
       </Animated.View>
     );

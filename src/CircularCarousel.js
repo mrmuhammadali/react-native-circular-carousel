@@ -37,7 +37,7 @@ const styles = {
 };
 
 const DURATION = Platform.OS === 'ios' ? 1 : 0;
-const ROTATION_RATE = Platform.OS === 'ios' ? 5 : 10;
+const ROTATION_RATE = Platform.OS === 'ios' ? 5 : 5;
 const PAN_ROTATION_RATE = 1;
 
 export default class CircularCarousel extends React.Component<
@@ -205,19 +205,19 @@ export default class CircularCarousel extends React.Component<
     }
   };
 
-  handleItemLayoutChange = event => {
-    const { layout } = event.nativeEvent;
-    const { itemLayout, items } = this.state;
+  // handleItemLayoutChange = event => {
+  //   const { layout } = event.nativeEvent;
+  //   const { itemLayout, items } = this.state;
 
-    if (
-      !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
-      !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
-    ) {
-      console.log(items[0], layout);
+  //   if (
+  //     !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
+  //     !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
+  //   ) {
+  //     console.log(items[0], layout);
 
-      this.setState(() => ({ itemLayout: layout }));
-    }
-  };
+  //     this.setState(() => ({ itemLayout: layout }));
+  //   }
+  // };
 
   setItemDraggingState = (isDragging: boolean) => {
     if (isDragging !== this.state.isDragging) {
@@ -250,7 +250,7 @@ export default class CircularCarousel extends React.Component<
             renderItem={renderItem}
             onItemPress={() => this.handleItemPress(index)}
             onItemDrop={() => this.handleItemDrop(index)}
-            onItemLayoutChange={this.handleItemLayoutChange}
+            //onItemLayoutChange={this.handleItemLayoutChange}
             setItemDraggingState={this.setItemDraggingState}
             setItemCollision={setItemCollision}
           />
