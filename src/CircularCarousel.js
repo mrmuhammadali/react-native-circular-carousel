@@ -29,10 +29,10 @@ import {
 
 const styles = {
   containerStyle: {
-    backgroundColor: 'transparent',
-    width: 300,
-    height: 200,
-    overflow: 'hidden',
+    backgroundColor: '#fff',
+    // width: 300,
+    // height: 200,
+    // overflow: 'hidden',
   },
 };
 

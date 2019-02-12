@@ -47,7 +47,7 @@ export function getStyles(props: GetStylesProps): GetStylesReturnType {
   const { style = {}, itemStyle = {} } = props;
 
   return {
-    style: { width: screenWidth, height: 200, ...style },
+    style: { width: 350, height: 200, ...style },
     itemStyle: { width: 150, height: 167, ...itemStyle },
   };
 }
@@ -67,6 +67,7 @@ function calculateItemsPositions(
       const cosalpha = Math.cos(alpha);
       const x = radius * sinalpha + (containerWidth / 2 - itemStyle.width / 2);
       const y = radius * cosalpha * ELEVATION_CONSTANT + itemStyle.height / 3;
+      console.log(index, x, y);
 
       return { ...item, X: x, Y: y, angle: q };
     });

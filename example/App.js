@@ -68,24 +68,25 @@ class App extends React.Component {
       <View style={styles.container}>
         <View style={styles.carouselView}>
           <CircularCarousel
-            style={{ height: 450, width: Dimensions.get('window').width }}
+            style={{ height: 450, width: 350 }}
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
             setItemCollision={this.setItemCollision}
             renderItem={data => <CarouselItem data={data} />}
           />
+          <View
+            style={{
+              backgroundColor: '#eee',
+              position: 'absolute',
+              width: 2,
+              height: 132.6,
+              top: 76,
+              left: 100,
+            }}
+          />
         </View>
-        <View
-          style={{
-            backgroundColor: '#eee',
-            position: 'absolute',
-            width: 64,
-            height: 132.6,
-            top: 110,
-            left: 120,
-          }}
-        />
+
         <Image
           onLayout={this.handleDropAreaLayoutChange}
           style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}
