@@ -47,9 +47,9 @@ const CarouselItemWrapper = (props: Props) => {
     width: w,
     height: h,
     position: 'absolute',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   };
   let CarouselItemView = renderItem ? (
     renderItem(data, onItemLayoutChange)

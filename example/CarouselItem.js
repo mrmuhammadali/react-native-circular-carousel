@@ -19,7 +19,7 @@ const CarouselItem = ({ data, onLayoutChange }: CarousalItemProps) => {
   const { name = '', icon = '', isSelected = false } = data;
 
   return (
-    <View style={styles.slideContainer} onLayout={onLayoutChange}>
+    <View style={styles.slideContainer}>
       <LinearGradient
         style={[
           styles.slides,

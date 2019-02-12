@@ -1,7 +1,7 @@
 import React from 'react';
 import CircularCarousel from 'react-native-circular-carousel';
 import { registerRootComponent } from 'expo';
-import { Image, View } from 'react-native';
+import { Image, View, Dimensions } from 'react-native';
 
 import CarouselItem from './CarouselItem';
 
@@ -68,7 +68,7 @@ class App extends React.Component {
       <View style={styles.container}>
         <View style={styles.carouselView}>
           <CircularCarousel
-            style={{ height: 450, width: 350 }}
+            style={{ height: 450, width: Dimensions.get('window').width }}
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
@@ -76,7 +76,16 @@ class App extends React.Component {
             renderItem={data => <CarouselItem data={data} />}
           />
         </View>
-
+        <View
+          style={{
+            backgroundColor: '#eee',
+            position: 'absolute',
+            width: 64,
+            height: 132.6,
+            top: 110,
+            left: 120,
+          }}
+        />
         <Image
           onLayout={this.handleDropAreaLayoutChange}
           style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}

@@ -3,10 +3,12 @@ import * as React from 'react';
 import inRange from 'lodash/inRange';
 import {
   Animated,
+  Dimensions,
   GestureResponderEvent,
   PanResponder,
   PanResponderGestureState,
   PanResponderInstance,
+  View,
 } from 'react-native';
 
 // src
@@ -50,19 +52,16 @@ export default class DraggableItem extends React.Component<Props, State> {
           setDraggingState,
           setItemCollision,
         } = this.props;
+        const { itemLayout } = this.state;
         const { moveY, y0 } = gesture;
 
         if (moveY - y0 > 20) {
           setDraggingState(true);
+          // console.log(item);
 
           if (setItemCollision) {
             setItemCollision(
-              isCollidingWithDropArea(
-                dropAreaLayout,
-                gesture,
-                item,
-                this.state.itemLayout
-              )
+              isCollidingWithDropArea(dropAreaLayout, gesture, item, itemLayout)
             );
           }
 
@@ -80,17 +79,13 @@ export default class DraggableItem extends React.Component<Props, State> {
           onDrop,
           setDraggingState,
         } = this.props;
+        const { itemLayout } = this.state;
         const { moveX, moveY, x0, y0 } = gesture;
 
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();
         } else if (
-          isCollidingWithDropArea(
-            dropAreaLayout,
-            gesture,
-            item,
-            this.state.itemLayout
-          )
+          isCollidingWithDropArea(dropAreaLayout, gesture, item, itemLayout)
         ) {
           onDrop();
         }
@@ -113,6 +108,7 @@ export default class DraggableItem extends React.Component<Props, State> {
     //   !inRange(itemLayout.width - 5, itemLayout.width + 5)(layout.width) ||
     //   !inRange(itemLayout.height - 5, itemLayout.height + 5)(layout.height)
     // ) {
+    console.log(layout);
 
     this.setState(() => ({ itemLayout: layout }));
     // }
