@@ -1,4 +1,5 @@
 // libs
+import { Dimensions, PanResponderGestureState } from 'react-native';
 import flow from 'lodash/fp/flow';
 import inRange from 'lodash/inRange';
 import isEqual from 'lodash/isEqual';
@@ -8,7 +9,7 @@ import some from 'lodash/fp/some';
 import times from 'lodash/times';
 
 // src
-import { CarouselItemData } from './types';
+import { CarouselItemData, Layout } from './types';
 
 /**
  *
@@ -29,6 +30,8 @@ export const hasPropChanged = (
 };
 
 const ELEVATION_CONSTANT = Math.cos(Math.PI / 2.3);
+const ITEM_PADDING = 30;
+const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 type GetStylesProps = {
   style?: {},
@@ -41,13 +44,16 @@ type GetStylesReturnType = {
 };
 
 export function getStyles(props: GetStylesProps): GetStylesReturnType {
-  const { style = { width: 350, height: 350 }, itemStyle = {} } = props;
+  const {
+    style = { width: SCREEN_WIDTH, height: SCREEN_WIDTH },
+    itemStyle = {},
+  } = props;
 
   return {
     style,
     itemStyle: {
-      width: style.width / 3 + 40,
-      height: style.width / 3 + 40,
+      width: style.width / 3 + ITEM_PADDING,
+      height: style.width / 3 + ITEM_PADDING,
       ...itemStyle,
     },
   };
@@ -89,7 +95,13 @@ export function getItemScalingCoefficient(
   return Math.abs(1 - (max - Y) / d);
 }
 
-function rescale(A: number, B: number, C: number, D: number, x: number) {
+function rescale(
+  A: number,
+  B: number,
+  C: number,
+  D: number,
+  x: number
+): number {
   return C * (1 - (x - A) / (B - A)) + (D * (x - A)) / (B - A);
 }
 
@@ -171,10 +183,9 @@ export function arrangeItemsInCircle(
 }
 
 export const isCollidingWithDropArea = (
-  dropAreaLayout: DropAreaLayout,
+  dropAreaLayout: Layout,
   gesture: PanResponderGestureState,
-  item: CarouselItemData,
-  itemLayout
+  item: CarouselItemData
 ) => {
   const dAX0 = dropAreaLayout.x;
   const dAX1 = dAX0 + dropAreaLayout.width;

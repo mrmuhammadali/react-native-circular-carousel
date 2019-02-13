@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 
 // src
-import { CarouselItemData, DropAreaLayout } from './types';
+import { CarouselItemData, Layout } from './types';
 import { isCollidingWithDropArea } from './utils';
 
 type Props = {
   style: {},
   item: CarouselItemData,
-  dropAreaLayout: DropAreaLayout,
+  dropAreaLayout: Layout,
   onDrop: () => void,
   onPress: () => void,
   setDraggingState: (isDragging: boolean) => void,
@@ -30,14 +30,13 @@ export default class DraggableItem extends React.Component<Props, State> {
   _val = null;
   state = {
     pan: new Animated.ValueXY(),
-    itemLayout: {},
     scale: new Animated.ValueXY({ x: 1, y: 1 }),
   };
 
   UNSAFE_componentWillMount() {
     // Add a listener for the delta value change
     this._val = { x: 0, y: 0 };
-    const { pan, scale, itemLayout } = this.state;
+    const { pan, scale } = this.state;
 
     pan.addListener(value => (this._val = value));
 
@@ -63,7 +62,7 @@ export default class DraggableItem extends React.Component<Props, State> {
 
           if (setItemCollision) {
             setItemCollision(
-              isCollidingWithDropArea(dropAreaLayout, gesture, item, itemLayout)
+              isCollidingWithDropArea(dropAreaLayout, gesture, item)
             );
           }
 
@@ -85,16 +84,13 @@ export default class DraggableItem extends React.Component<Props, State> {
           onDrop,
           setDraggingState,
         } = this.props;
-        const { itemLayout } = this.state;
         const { moveX, moveY, x0, y0 } = gesture;
 
         scale.setValue({ x: 1, y: 1 });
 
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();
-        } else if (
-          isCollidingWithDropArea(dropAreaLayout, gesture, item, itemLayout)
-        ) {
+        } else if (isCollidingWithDropArea(dropAreaLayout, gesture, item)) {
           onDrop();
         }
         setDraggingState(false);
@@ -109,31 +105,21 @@ export default class DraggableItem extends React.Component<Props, State> {
     scale.setValue({ x: 1, y: 1 });
   }
 
-  handleItemLayoutChange = event => {
-    const { layout } = event.nativeEvent;
-
-    this.setState(() => ({ itemLayout: layout }));
-  };
-
   render() {
-    const panStyle = {
-      transform: [
-        { translateX: this.state.pan.x },
-        { translateY: this.state.pan.y },
-        { scaleX: this.state.scale.x },
-        { scaleY: this.state.scale.y },
-      ],
-      // scale: this.state.yScale,
-    };
+    const { pan, scale } = this.state;
     const { children, style } = this.props;
     const panHandlers = this.panResponder.panHandlers;
+    const panStyle = {
+      transform: [
+        { translateX: pan.x },
+        { translateY: pan.y },
+        { scaleX: scale.x },
+        { scaleY: scale.y },
+      ],
+    };
 
     return (
-      <Animated.View
-        {...panHandlers}
-        style={[panStyle, style]}
-        onLayout={this.handleItemLayoutChange}
-      >
+      <Animated.View {...panHandlers} style={[panStyle, style]}>
         {children}
       </Animated.View>
     );

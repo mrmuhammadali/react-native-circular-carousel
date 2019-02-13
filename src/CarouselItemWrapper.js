@@ -9,14 +9,14 @@ import {
 
 // src
 import CarouselItem from './CarouselItem';
-import { CarouselItemData, DropAreaLayout } from './types';
+import { CarouselItemData, Layout } from './types';
 import DraggableItem from './DraggableItem';
 
 type Props = {
   isDraggable: boolean,
   item: CarouselItemData,
   data: any,
-  dropAreaLayout: DropAreaLayout,
+  dropAreaLayout: Layout,
   renderItem?: (data: any) => JSX.Element,
   onItemPress: () => void,
   onItemDrop: () => void,
