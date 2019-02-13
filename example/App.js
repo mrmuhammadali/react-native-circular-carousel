@@ -64,7 +64,7 @@ class App extends React.Component {
       <View style={styles.container}>
         <View style={styles.carouselView}>
           <CircularCarousel
-            style={{ height: 350, width: 350 }}
+            style={{ height: 550, width: 350 }}
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}

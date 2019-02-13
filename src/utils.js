@@ -46,8 +46,8 @@ export function getStyles(props: GetStylesProps): GetStylesReturnType {
   return {
     style,
     itemStyle: {
-      width: style.width / 3,
-      height: style.height / 3,
+      width: style.width / 3 + 40,
+      height: style.width / 3 + 40,
       ...itemStyle,
     },
   };

@@ -28,12 +28,16 @@ type State = {
 export default class DraggableItem extends React.Component<Props, State> {
   panResponder: PanResponderInstance = null;
   _val = null;
-  state = { pan: new Animated.ValueXY(), itemLayout: {} };
+  state = {
+    pan: new Animated.ValueXY(),
+    itemLayout: {},
+    scale: new Animated.ValueXY({ x: 1, y: 1 }),
+  };
 
   UNSAFE_componentWillMount() {
     // Add a listener for the delta value change
     this._val = { x: 0, y: 0 };
-    const { pan, itemLayout } = this.state;
+    const { pan, scale, itemLayout } = this.state;
 
     pan.addListener(value => (this._val = value));
 
@@ -50,9 +54,10 @@ export default class DraggableItem extends React.Component<Props, State> {
           setDraggingState,
           setItemCollision,
         } = this.props;
-        const { itemLayout } = this.state;
         const { moveY, y0 } = gesture;
+        const dropAreaDistance = dropAreaLayout.y - item.Y;
 
+        let normalized = (gesture.dy - 0) / (dropAreaDistance - 0);
         if (moveY - y0 > 20) {
           setDraggingState(true);
 
@@ -60,6 +65,10 @@ export default class DraggableItem extends React.Component<Props, State> {
             setItemCollision(
               isCollidingWithDropArea(dropAreaLayout, gesture, item, itemLayout)
             );
+          }
+
+          if (normalized < 0.4) {
+            scale.setValue({ x: 1 - normalized, y: 1 - normalized });
           }
 
           return Animated.event([null, { dx: pan.x, dy: pan.y }])(e, gesture);
@@ -79,6 +88,8 @@ export default class DraggableItem extends React.Component<Props, State> {
         const { itemLayout } = this.state;
         const { moveX, moveY, x0, y0 } = gesture;
 
+        scale.setValue({ x: 1, y: 1 });
+
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();
         } else if (
@@ -95,6 +106,7 @@ export default class DraggableItem extends React.Component<Props, State> {
     });
     // adjusting delta value
     pan.setValue({ x: 0, y: 0 });
+    scale.setValue({ x: 1, y: 1 });
   }
 
   handleItemLayoutChange = event => {
@@ -105,7 +117,13 @@ export default class DraggableItem extends React.Component<Props, State> {
 
   render() {
     const panStyle = {
-      transform: this.state.pan.getTranslateTransform(),
+      transform: [
+        { translateX: this.state.pan.x },
+        { translateY: this.state.pan.y },
+        { scaleX: this.state.scale.x },
+        { scaleY: this.state.scale.y },
+      ],
+      // scale: this.state.yScale,
     };
     const { children, style } = this.props;
     const panHandlers = this.panResponder.panHandlers;
