@@ -204,13 +204,13 @@ export default class CircularCarousel extends React.Component<
   render() {
     const { items, frontItemIndex, isDragging } = this.state;
     const {
-      style = {},
       dropAreaLayout,
       renderItem,
       onItemDrop,
       setItemCollision,
     } = this.props;
     const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
+    const { style } = getStyles(this.props);
 
     return (
       <View
