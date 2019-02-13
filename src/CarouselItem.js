@@ -5,14 +5,10 @@ import { Text, View } from 'react-native';
 // src
 import styles from './CarouselItemStyles';
 
-type CarouselItemProps = {
-  data: string,
-};
-
-const CarouselItem = ({ data }: CarouselItemProps) => {
+const CarouselItem = ({ name }: { name: string }) => {
   return (
     <View style={styles.slideContainer}>
-      <Text style={styles.text}>{data}</Text>
+      <Text style={styles.text}>{name}</Text>
     </View>
   );
 };
