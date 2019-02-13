@@ -26,12 +26,6 @@ import {
   initializeCarouselItems,
 } from './utils';
 
-const styles = {
-  containerStyle: {
-    backgroundColor: 'transparent',
-  },
-};
-
 const DURATION = Platform.OS === 'ios' ? 1 : 0;
 const ROTATION_RATE = Platform.OS === 'ios' ? 5 : 5;
 const PAN_ROTATION_RATE = 1;
@@ -219,7 +213,15 @@ export default class CircularCarousel extends React.Component<
     const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
 
     return (
-      <View style={[styles.containerStyle, style]} {...panHandlers}>
+      <View
+        style={[
+          {
+            backgroundColor: 'transparent',
+          },
+          style,
+        ]}
+        {...panHandlers}
+      >
         {items.map(({ data, ...item }, index) => (
           <CarouselItemWrapper
             key={index}

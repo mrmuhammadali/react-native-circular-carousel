@@ -73,16 +73,7 @@ class App extends React.Component {
             setItemCollision={this.setItemCollision}
             renderItem={data => <CarouselItem data={data} />}
           />
-          <View
-            style={{
-              backgroundColor: '#eee',
-              position: 'absolute',
-              width: 2,
-              height: 132.6,
-              top: 76,
-              left: 100,
-            }}
-          />
+
           <Image
             onLayout={this.handleDropAreaLayoutChange}
             style={[styles.dropArea, isColliding ? styles.collidingArea : {}]}

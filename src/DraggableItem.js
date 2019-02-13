@@ -13,6 +13,7 @@ import { CarouselItemData, DropAreaLayout } from './types';
 import { isCollidingWithDropArea } from './utils';
 
 type Props = {
+  style: {},
   item: CarouselItemData,
   dropAreaLayout: DropAreaLayout,
   onDrop: () => void,
@@ -106,13 +107,13 @@ export default class DraggableItem extends React.Component<Props, State> {
     const panStyle = {
       transform: this.state.pan.getTranslateTransform(),
     };
-    const { children } = this.props;
+    const { children, style } = this.props;
     const panHandlers = this.panResponder.panHandlers;
 
     return (
       <Animated.View
         {...panHandlers}
-        style={[panStyle]}
+        style={[panStyle, style]}
         onLayout={this.handleItemLayoutChange}
       >
         {children}

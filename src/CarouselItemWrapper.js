@@ -53,6 +53,7 @@ const CarouselItemWrapper = (props: Props) => {
   );
   CarouselItemView = isDraggable ? (
     <DraggableItem
+      style={wrapperStyle}
       data={data}
       item={item}
       dropAreaLayout={dropAreaLayout}
@@ -64,20 +65,20 @@ const CarouselItemWrapper = (props: Props) => {
       {CarouselItemView}
     </DraggableItem>
   ) : (
-    CarouselItemView
+    <View style={wrapperStyle}>{CarouselItemView}</View>
   );
 
   if (Platform.OS === 'ios') {
     return (
       <TouchableWithoutFeedback onPress={onItemPress}>
-        <View style={wrapperStyle}>{CarouselItemView}</View>
+        {CarouselItemView}
       </TouchableWithoutFeedback>
     );
   }
 
   return (
     <TouchableNativeFeedback onPress={onItemPress}>
-      <View style={wrapperStyle}>{CarouselItemView}</View>
+      {CarouselItemView}
     </TouchableNativeFeedback>
   );
 };
