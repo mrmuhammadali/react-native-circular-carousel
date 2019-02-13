@@ -19,10 +19,10 @@ const CarouselItem = ({ data }: CarousalItemProps) => {
   const { name = '', icon = '', isSelected = false } = data;
 
   return (
-    <View style={styles.slideContainer}>
+    <View style={styles.container}>
       <LinearGradient
         style={[
-          styles.slides,
+          styles.slide,
           { borderWidth: isSelected ? 0.5 : 0.0, borderColor: '#FFF' },
         ]}
         locations={[0.2, 1.0]}
@@ -30,11 +30,7 @@ const CarouselItem = ({ data }: CarousalItemProps) => {
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
       >
-        <Image
-          resizeMode="contain"
-          style={{ flex: 1, height: 110, width: 110 }}
-          source={icon}
-        />
+        <Image style={styles.image} source={icon} />
       </LinearGradient>
       <Text style={styles.text}>{name}</Text>
     </View>

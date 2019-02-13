@@ -41,11 +41,15 @@ type GetStylesReturnType = {
 };
 
 export function getStyles(props: GetStylesProps): GetStylesReturnType {
-  const { style = {}, itemStyle = {} } = props;
+  const { style = { width: 350, height: 350 }, itemStyle = {} } = props;
 
   return {
-    style: { width: 350, height: 200, ...style },
-    itemStyle: { width: 150, height: 167, ...itemStyle },
+    style,
+    itemStyle: {
+      width: style.width / 3,
+      height: style.height / 3,
+      ...itemStyle,
+    },
   };
 }
 
@@ -177,9 +181,9 @@ export const isCollidingWithDropArea = (
   const dAY0 = dropAreaLayout.y;
   const dAY1 = dAY0 + dropAreaLayout.height;
   const x0 = item.X;
-  const x1 = x0 + itemLayout.width;
+  const x1 = x0 + item.w;
   const y0 = item.Y;
-  const y1 = y0 + itemLayout.height;
+  const y1 = y0 + item.h;
   const dx0 = gesture.x0 - x0;
   const dx1 = x1 - gesture.x0;
   const dy0 = gesture.y0 - y0;

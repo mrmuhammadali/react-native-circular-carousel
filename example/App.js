@@ -16,13 +16,11 @@ const styles = {
   },
   carouselView: {
     alignSelf: 'flex-start',
-    height: 500,
-    zIndex: 1,
+    height: 550,
   },
   dropArea: {
     position: 'absolute',
-    backgroundColor: '#888',
-    bottom: 50,
+    bottom: 0,
     left: 130,
   },
   collidingArea: {
@@ -66,7 +64,7 @@ class App extends React.Component {
       <View style={styles.container}>
         <View style={styles.carouselView}>
           <CircularCarousel
-            style={{ height: 450, width: 350 }}
+            style={{ height: 350, width: 350 }}
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
