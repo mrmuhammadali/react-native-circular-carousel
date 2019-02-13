@@ -69,7 +69,7 @@ class App extends React.Component {
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
             setItemCollision={this.setItemCollision}
-            // renderItem={data => <CarouselItem data={data} />}
+            renderItem={data => <CarouselItem data={data} />}
           />
 
           <Image
