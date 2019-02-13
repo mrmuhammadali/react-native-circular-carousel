@@ -30,7 +30,7 @@ const CarouselItemWrapper = (props: Props) => {
     item,
     data,
     dropAreaLayout,
-    renderItem,
+    renderItem = CarouselItem,
     onItemPress,
     onItemDrop,
     setItemDraggingState,
@@ -46,12 +46,7 @@ const CarouselItemWrapper = (props: Props) => {
     height: h,
     position: 'absolute',
   };
-  let CarouselItemView = renderItem ? (
-    renderItem(data)
-  ) : (
-    <CarouselItem data={data} />
-  );
-  CarouselItemView = isDraggable ? (
+  const CarouselItemView = isDraggable ? (
     <DraggableItem
       style={wrapperStyle}
       data={data}
@@ -62,10 +57,10 @@ const CarouselItemWrapper = (props: Props) => {
       setDraggingState={setItemDraggingState}
       setItemCollision={setItemCollision}
     >
-      {CarouselItemView}
+      {renderItem(data)}
     </DraggableItem>
   ) : (
-    <View style={wrapperStyle}>{CarouselItemView}</View>
+    <View style={wrapperStyle}>{renderItem(data)}</View>
   );
 
   if (Platform.OS === 'ios') {
