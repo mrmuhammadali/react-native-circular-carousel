@@ -185,19 +185,24 @@ export function arrangeItemsInCircle(
 export const isCollidingWithDropArea = (
   dropAreaLayout: Layout,
   gesture: PanResponderGestureState,
-  item: CarouselItemData
+  item: CarouselItemData,
+  scaleFactor: number = 1
 ) => {
+  const dimensionFactor =
+    parseFloat(JSON.stringify(scaleFactor)) === 1 ? 1 : 0.6 + scaleFactor / 3;
+  const xFactor =
+    parseFloat(JSON.stringify(scaleFactor)) === 1 ? 1 : 0.6 + scaleFactor / 2;
   const dAX0 = dropAreaLayout.x;
   const dAX1 = dAX0 + dropAreaLayout.width;
   const dAY0 = dropAreaLayout.y;
   const dAY1 = dAY0 + dropAreaLayout.height;
   const x0 = item.X;
-  const x1 = x0 + item.w;
+  const x1 = x0 + item.w * dimensionFactor;
   const y0 = item.Y;
-  const y1 = y0 + item.h;
-  const dx0 = gesture.x0 - x0;
+  const y1 = y0 + item.h * dimensionFactor;
+  const dx0 = gesture.x0 * xFactor - x0;
   const dx1 = x1 - gesture.x0;
-  const dy0 = gesture.y0 - y0;
+  const dy0 = gesture.y0 * dimensionFactor - y0;
   const dy1 = y1 - gesture.y0;
   const mx0 = gesture.moveX - dx0;
   const mx1 = gesture.moveX + dx1;

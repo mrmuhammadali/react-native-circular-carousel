@@ -19,6 +19,8 @@ type Props = {
   onDrop: () => void,
   onPress: () => void,
   setDraggingState: (isDragging: boolean) => void,
+  disableDragScaling: boolean,
+  animatedNormalization: (value: number) => void,
 };
 
 type State = {
@@ -52,21 +54,34 @@ export default class DraggableItem extends React.Component<Props, State> {
           item,
           setDraggingState,
           setItemCollision,
+          disableDragScaling,
+          animatedNormalization,
         } = this.props;
         const { moveY, y0 } = gesture;
         const dropAreaDistance = dropAreaLayout.y - item.Y;
+        const dropAreaAnimationDistance =
+          dropAreaDistance - dropAreaLayout.height;
+        const factor = disableDragScaling ? scale.x : 0.6;
+        const normalized = gesture.dy / dropAreaDistance;
+        let animationNormalization = gesture.dy / dropAreaAnimationDistance;
 
-        let normalized = (gesture.dy - 0) / (dropAreaDistance - 0);
+        if (animationNormalization > 1) {
+          animationNormalization = 1;
+        }
+        animationNormalization = Math.max(0, animationNormalization);
+
+        animatedNormalization(animationNormalization);
+
         if (moveY - y0 > 20) {
           setDraggingState(true);
 
           if (setItemCollision) {
             setItemCollision(
-              isCollidingWithDropArea(dropAreaLayout, gesture, item)
+              isCollidingWithDropArea(dropAreaLayout, gesture, item, factor)
             );
           }
 
-          if (normalized < 0.4) {
+          if (!disableDragScaling && normalized < 0.4) {
             scale.setValue({ x: 1 - normalized, y: 1 - normalized });
           }
 
@@ -83,10 +98,12 @@ export default class DraggableItem extends React.Component<Props, State> {
           onPress,
           onDrop,
           setDraggingState,
+          animatedNormalization,
         } = this.props;
         const { moveX, moveY, x0, y0 } = gesture;
 
         scale.setValue({ x: 1, y: 1 });
+        animatedNormalization(0);
 
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();

@@ -209,6 +209,8 @@ export default class CircularCarousel extends React.Component<
       renderItem,
       onItemDrop,
       setItemCollision,
+      disableDragScaling = false,
+      animatedNormalization,
     } = this.props;
     const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
 
@@ -236,6 +238,8 @@ export default class CircularCarousel extends React.Component<
             onItemDrop={() => this.handleItemDrop(index)}
             setItemDraggingState={this.setItemDraggingState}
             setItemCollision={setItemCollision}
+            disableDragScaling={disableDragScaling}
+            animatedNormalization={animatedNormalization}
           />
         ))}
       </View>
