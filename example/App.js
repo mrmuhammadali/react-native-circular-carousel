@@ -26,7 +26,7 @@ const styles = {
   wrappingDropArea: {
     width: 200,
     height: 120,
-    backgroundColor: '#eee',
+    backgroundColor: 'transparent',
     bottom: 0,
     left: 80,
     justifyContent: 'center',
@@ -56,7 +56,23 @@ class App extends React.Component {
       { name: 'Lion', icon: require('./assets/lion.png') },
       { name: 'Wolf', icon: require('./assets/wolf.png') },
       { name: 'Jaguar', icon: require('./assets/jaguar.png') },
+      { name: 'One', icon: require('./assets/lion.png') },
+      { name: 'Two', icon: require('./assets/wolf.png') },
+      { name: 'THree', icon: require('./assets/jaguar.png') },
+      { name: 'Four', icon: require('./assets/lion.png') },
+      { name: 'Five', icon: require('./assets/wolf.png') },
+      { name: 'Six', icon: require('./assets/jaguar.png') },
+      { name: 'Seven', icon: require('./assets/lion.png') },
+      { name: 'Eight', icon: require('./assets/wolf.png') },
+      { name: 'Nine', icon: require('./assets/jaguar.png') },
+      { name: 'Ten', icon: require('./assets/lion.png') },
+      { name: 'Eleve', icon: require('./assets/wolf.png') },
+      { name: 'Twelve', icon: require('./assets/jaguar.png') },
+      { name: 'Thirteen', icon: require('./assets/lion.png') },
+      { name: 'Fourteen', icon: require('./assets/wolf.png') },
+      { name: 'Fifteen', icon: require('./assets/jaguar.png') },
     ],
+    droppedEntries: [],
     dropAreaLayout: { width: 0, height: 0, x: 0, y: 0 },
     diagonalDropAreaLayout: { width: 0, height: 0, x: 0, y: 0 },
     isColliding: false,
@@ -92,19 +108,25 @@ class App extends React.Component {
     }));
   };
 
-  animatedNormalization = value => {
-    const { animatedNormalization } = this.state;
-    animatedNormalization.setValue(value);
-  };
-
   handleItemDrop = (index: number): void => {
-    this.setState(({ entries }) => ({
+    const { entries } = this.state;
+    const [droppedEntry] = entries.filter((_, i) => i === index);
+    this.setState(({ entries, droppedEntries }) => ({
       isColliding: false,
       entries: entries.filter((_, i) => i !== index),
+      droppedEntries: [...droppedEntries, droppedEntry],
     }));
   };
 
-  setItemCollision = (isColliding: boolean): void => {
+  /**
+   * Set the Props while the item is in Dragging state
+   * @param {Object} obj - Dragging Props Object
+   * @param {boolean} obj.isColliding - Collision of Dragging Item with Drop Area
+   * @param {number} obj.translationFactor - Translation factor 0-1 , to determine the animation of Drop Area
+   */
+  setDraggingProps = ({ isColliding, translationFactor }): void => {
+    const { animatedNormalization } = this.state;
+    animatedNormalization.setValue(translationFactor);
     if (this.state.isColliding !== isColliding) {
       this.setState(() => ({ isColliding }));
     }
@@ -114,7 +136,6 @@ class App extends React.Component {
     const {
       dropAreaLayout,
       entries,
-      isColliding,
       diagonalDropAreaHorizontal,
       diagonalDropAreaVertical,
       animatedNormalization,
@@ -128,9 +149,8 @@ class App extends React.Component {
             dataSource={entries}
             dropAreaLayout={dropAreaLayout}
             onItemDrop={this.handleItemDrop}
-            setItemCollision={this.setItemCollision}
+            setDraggingProps={this.setDraggingProps}
             renderItem={data => <CarouselItem data={data} />}
-            animatedNormalization={this.animatedNormalization}
             //disableDragScaling
           />
 

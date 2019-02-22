@@ -19,8 +19,11 @@ type Props = {
   onDrop: () => void,
   onPress: () => void,
   setDraggingState: (isDragging: boolean) => void,
+  setDraggingProps: (props: {
+    isColliding: boolean,
+    translationFactor: number,
+  }) => void,
   disableDragScaling: boolean,
-  animatedNormalization: (value: number) => void,
 };
 
 type State = {
@@ -53,9 +56,8 @@ export default class DraggableItem extends React.Component<Props, State> {
           dropAreaLayout,
           item,
           setDraggingState,
-          setItemCollision,
+          setDraggingProps,
           disableDragScaling,
-          animatedNormalization,
         } = this.props;
         const { moveY, y0 } = gesture;
         const dropAreaDistance = dropAreaLayout.y - item.Y;
@@ -70,15 +72,19 @@ export default class DraggableItem extends React.Component<Props, State> {
         }
         animationNormalization = Math.max(0, animationNormalization);
 
-        animatedNormalization(animationNormalization);
-
         if (moveY - y0 > 20) {
           setDraggingState(true);
 
-          if (setItemCollision) {
-            setItemCollision(
-              isCollidingWithDropArea(dropAreaLayout, gesture, item, factor)
-            );
+          if (setDraggingProps) {
+            setDraggingProps({
+              isColliding: isCollidingWithDropArea(
+                dropAreaLayout,
+                gesture,
+                item,
+                factor
+              ),
+              translationFactor: animationNormalization,
+            });
           }
 
           if (!disableDragScaling && normalized < 0.4) {
@@ -98,12 +104,15 @@ export default class DraggableItem extends React.Component<Props, State> {
           onPress,
           onDrop,
           setDraggingState,
-          animatedNormalization,
+          setDraggingProps,
         } = this.props;
         const { moveX, moveY, x0, y0 } = gesture;
 
         scale.setValue({ x: 1, y: 1 });
-        animatedNormalization(0);
+        setDraggingProps({
+          isColliding: isCollidingWithDropArea(dropAreaLayout, gesture, item),
+          translationFactor: 0,
+        });
 
         if (onPress && (moveX === x0 && moveY === y0)) {
           onPress();

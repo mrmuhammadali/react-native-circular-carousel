@@ -21,9 +21,11 @@ type Props = {
   onItemPress: () => void,
   onItemDrop: () => void,
   setItemDraggingState: (isDragging: boolean) => void,
-  setItemCollision: (isColliding: boolean) => void,
+  setDraggingProps: (props: {
+    isColliding: boolean,
+    translationFactor: number,
+  }) => void,
   disableDragScaling: boolean,
-  animatedNormalization: (value: number) => void,
 };
 
 const CarouselItemWrapper = (props: Props) => {
@@ -36,9 +38,8 @@ const CarouselItemWrapper = (props: Props) => {
     onItemPress,
     onItemDrop,
     setItemDraggingState,
-    setItemCollision,
+    setDraggingProps,
     disableDragScaling,
-    animatedNormalization,
   } = props;
   const { h, opacity, w, X, Y, zIndex } = item;
   const wrapperStyle = {
@@ -59,9 +60,8 @@ const CarouselItemWrapper = (props: Props) => {
       onPress={onItemPress}
       onDrop={onItemDrop}
       setDraggingState={setItemDraggingState}
-      setItemCollision={setItemCollision}
+      setDraggingProps={setDraggingProps}
       disableDragScaling={disableDragScaling}
-      animatedNormalization={animatedNormalization}
     >
       {renderItem(data)}
     </DraggableItem>

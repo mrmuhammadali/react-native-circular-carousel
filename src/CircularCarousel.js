@@ -109,14 +109,47 @@ export default class CircularCarousel extends React.Component<
 
     this.setState(() => ({
       yMargins,
-      frontItemIndex,
+      frontItemIndex: 0,
       items: arrangedItems,
     }));
   }
 
-  rotateCarousel = (activeItem: number): void => {
-    const { yMargins, items } = this.state;
-    const cAngle = items[activeItem].angle;
+  rotateCarousel = (index: number, activeItem: number): void => {
+    const {
+      dataSource,
+      radius,
+      style: rotateStyle,
+      itemStyle: rotateItemStyle,
+    } = this.props;
+    const { yMargins } = this.state;
+
+    let newEntries = dataSource;
+
+    if (index === 1) {
+      newEntries.push(newEntries.shift());
+    }
+    if (index === 2) {
+      const shiftArrayToRight = newEntries.splice(0, 2);
+      newEntries.push(...shiftArrayToRight);
+    }
+    if (index === 4) {
+      const shiftArrayToLeft = newEntries.splice(newEntries.length - 1, 1);
+      newEntries.unshift(...shiftArrayToLeft);
+    }
+    if (index === 3) {
+      const shiftArrayToLeft = newEntries.splice(newEntries.length - 2, 2);
+      newEntries.unshift(...shiftArrayToLeft);
+    }
+
+    const { style, itemStyle } = getStyles({ rotateStyle, rotateItemStyle });
+    const items: CarouselItemData[] = initializeCarouselItems(
+      radius,
+      style.width,
+      itemStyle,
+      newEntries
+    );
+
+    const cAngle = items[index].angle;
     let rotationAngle = (360 - cAngle) % 360;
 
     if (rotationAngle > 180) {
@@ -177,14 +210,22 @@ export default class CircularCarousel extends React.Component<
 
   handleItemPress = (index: number): void => {
     const { frontItemIndex } = this.state;
-    const { onItemPress } = this.props;
+    const { onItemPress, dataSource } = this.props;
+
+    const itemIndicesMapping = new Map([
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, dataSource.length - 2],
+      [4, dataSource.length - 1],
+    ]);
 
     if (index === frontItemIndex && onItemPress) {
       onItemPress(index);
       return;
     }
 
-    this.rotateCarousel(index);
+    this.rotateCarousel(index, itemIndicesMapping.get(index));
   };
 
   handleItemDrop = (index: number): void => {
@@ -208,9 +249,8 @@ export default class CircularCarousel extends React.Component<
       dropAreaLayout,
       renderItem,
       onItemDrop,
-      setItemCollision,
+      setDraggingProps,
       disableDragScaling = false,
-      animatedNormalization,
     } = this.props;
     const panHandlers = isDragging ? {} : this.panResponder.panHandlers;
 
@@ -237,9 +277,8 @@ export default class CircularCarousel extends React.Component<
             onItemPress={() => this.handleItemPress(index)}
             onItemDrop={() => this.handleItemDrop(index)}
             setItemDraggingState={this.setItemDraggingState}
-            setItemCollision={setItemCollision}
+            setDraggingProps={setDraggingProps}
             disableDragScaling={disableDragScaling}
-            animatedNormalization={animatedNormalization}
           />
         ))}
       </View>

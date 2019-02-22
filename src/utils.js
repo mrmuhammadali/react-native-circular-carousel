@@ -9,7 +9,7 @@ import some from 'lodash/fp/some';
 import times from 'lodash/times';
 
 // src
-import { CarouselItemData, Layout } from './types';
+import type { CarouselItemData, Layout, ItemStyle, YMargins } from './types';
 
 /**
  *
@@ -59,29 +59,42 @@ export function getStyles(props: GetStylesProps): GetStylesReturnType {
   };
 }
 
+/**
+ * Calculation of position for every item in the carousel
+ * @param {number} angle Starting angle if any for arranging the items
+ * @param {number} radius Radius of the Circular Carousel
+ * @param {number} containerWidth Width of the container containing Carousel
+ * @param {ItemStyle} itemStyle items style containing width and height of item
+ */
 function calculateItemsPositions(
   angle: number,
   radius: number,
   containerWidth: number,
-  itemStyle: { width: number, height: number }
+  itemStyle: ItemStyle
 ): (items: CarouselItemData[]) => CarouselItemData[] {
   return (items: CarouselItemData[]) => {
-    return items.map(({ index: __index__, ...item }: CarouselItemData) => {
+    return items.map(({ index: __index__, ...item }: CarouselItemData, i) => {
       const index = __index__ || 0;
-      const q = ((index * 360) / size(items) + angle) % 360;
+      const q = ((i * 360) / size(items) + angle) % 360;
       const alpha = q * (Math.PI / 180);
       const sinalpha = Math.sin(alpha);
       const cosalpha = Math.cos(alpha);
       const x = radius * sinalpha + (containerWidth / 2 - itemStyle.width / 2);
       const y = radius * cosalpha * ELEVATION_CONSTANT + itemStyle.height / 3;
 
-      return { ...item, X: x, Y: y, angle: q };
+      return { ...item, X: x, Y: y, angle: q, index: index };
     });
   };
 }
 
+/**
+ * Calculate the coefficient of every item visible in the carousel,
+ * so that we can determine 'opacity' and 'zIndex' of the item in the Carousel
+ * @param {YMargins} yMargins y axis min and max of the item
+ * @param {CarouselItemData} item Properties of the item  whose coefficient is calculated
+ */
 export function getItemScalingCoefficient(
-  yMargins: { min: number, max: number },
+  yMargins: YMargins,
   item: CarouselItemData
 ): number {
   const { min, max } = yMargins;
@@ -105,9 +118,14 @@ function rescale(
   return C * (1 - (x - A) / (B - A)) + (D * (x - A)) / (B - A);
 }
 
+/**
+ * Set items zIndex and opacity in the carousel
+ * @param {ItemStyle} itemStyle  items style containing width and height of item
+ * @param {YMarging} yMargins  y axis min and max of the item
+ */
 function rearrangeItemsDimensions(
-  itemStyle: { width: number, height: number },
-  yMargins: { min: number, max: number }
+  itemStyle: ItemStyle,
+  yMargins: YMargins
 ): (items: CarouselItemData[]) => CarouselItemData[] {
   const { width, height } = itemStyle;
 
@@ -124,12 +142,31 @@ function rearrangeItemsDimensions(
         w: newWidth,
         h: height * coefficient,
         zIndex: 100 * coefficient,
-        opacity: coefficient < 0.7 ? 0 : rescale(0.7, 1, 0, 1, coefficient),
+        opacity: coefficient < 0.7 ? 0 : rescale(0.6, 1, 0, 1, coefficient),
       };
     });
   };
 }
 
+/**
+ * To show only 5 items in the circle
+ */
+function positionFiveItemsInCircle() {
+  return items => {
+    return size(items) >= 5
+      ? items.slice(0, 3).concat(items.slice(size(items) - 2))
+      : items;
+  };
+}
+
+/**
+ * Initialize carousel items in circle by calculating positions
+ * of items in circle
+ * @param {number} radius  Radius of the Circular Carousel
+ * @param {number} containerWidth  Width of the container containing Carousel
+ * @param {ItemStyle} itemStyle  Width and height of single item displayed in the carousel
+ * @param {{}[]} dataSource Array of the Items to be displayed in Circular Carousel
+ */
 export function initializeCarouselItems(
   radius: number,
   containerWidth: number,
@@ -139,6 +176,7 @@ export function initializeCarouselItems(
   return flow(
     (thisItems: {}[]) =>
       thisItems.map((data: {}, index: number) => ({ data, index })),
+    positionFiveItemsInCircle(),
     calculateItemsPositions(0, radius, containerWidth, itemStyle)
   )(dataSource);
 }
@@ -163,25 +201,42 @@ function getItemsIndices(
     )(total);
 }
 
+/**
+ * Arrange the items in the circle
+ * @param {number} frontIndex Item in the front of the carousel, aka Active Item
+ * @param {number} angle  Starting angle if any for arranging the items
+ * @param {number} radius Radius of the Circular Carousel
+ * @param {number} containerWidth Width of the container containing Carousel
+ * @param {ItemStyle} itemStyle Width and height of the Single item in Carousel
+ * @param {YMargins} yMargins y axis min and max of the item
+ * @param {CarouselItemData[]} items Array of items to be placed in Carousel
+ */
 export function arrangeItemsInCircle(
   frontIndex: number,
   angle: number,
   radius: number,
   containerWidth: number,
-  itemStyle: { width: number, height: number },
-  yMargins: { min: number, max: number },
+  itemStyle: ItemStyle,
+  yMargins: YMargins,
   items: CarouselItemData[]
 ): CarouselItemData[] {
-  const indices = getItemsIndices(frontIndex)(size(items));
-
   return flow(
     (thisItems: CarouselItemData[]) =>
-      thisItems.map((item, index) => ({ ...item, index: indices[index] })),
+      // thisItems.map((item, index) => ({ ...item, index: indices[index] })),
+      // positionFiveItemsInCircle(),
+      thisItems.map(item => item),
     calculateItemsPositions(angle, radius, containerWidth, itemStyle),
     rearrangeItemsDimensions(itemStyle, yMargins)
   )(items);
 }
 
+/**
+ * Detect the collision of Item with Drop Area
+ * @param {Layout} dropAreaLayout layout of the drop area containing width and height of the drop area
+ * @param {PanResponderGestureState} gesture Gesture object contaning the variables of gestures like x,y,moveX,moveY
+ * @param {CarouselItemData} item Properties of the item  whose collision is being detected with drop area
+ * @param {number} scaleFactor Scaling factor [0-1] of the item while moving
+ */
 export const isCollidingWithDropArea = (
   dropAreaLayout: Layout,
   gesture: PanResponderGestureState,

@@ -32,22 +32,35 @@ export type CircularCarouselProps = {
     height?: number,
     width?: number,
   },
-  itemStyle?: {
-    height?: number,
-    width?: number,
-  },
+  itemStyle?: ItemStyle,
   radius?: number,
   dropAreaLayout: DropAreaLayout,
   renderItem?: (data: any) => JSX.Element,
   onItemPress?: (index: number) => void,
   onItemDrop?: (index: number) => void,
-  setItemCollision?: (isColliding: boolean) => void,
+  disableDragScaling?: boolean,
+  setDraggingProps?: (props: ItemDraggingProps) => void,
 };
 
 export type CircularCarouselState = {
-  yMargins: { min: number, max: number },
+  yMargins: YMargins,
   frontItemIndex: number,
   items: CarouselItemData[],
   isDragging: boolean,
   itemLayout: Layout,
+};
+
+export type ItemStyle = {
+  width: number,
+  height: number,
+};
+
+export type YMargins = {
+  min: number,
+  max: number,
+};
+
+export type ItemDraggingProps = {
+  isColliding: boolean,
+  translationFactor: number,
 };
