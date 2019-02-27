@@ -22,9 +22,6 @@ const styles = {
 class SimpleCarousel extends React.Component {
   state = {
     entries: [
-      { name: 'Lion', icon: require('./../assets/lion.png') },
-      { name: 'Wolf', icon: require('./../assets/wolf.png') },
-      { name: 'Jaguar', icon: require('./../assets/jaguar.png') },
       { name: 'One', icon: require('./../assets/lion.png') },
       { name: 'Two', icon: require('./../assets/wolf.png') },
       { name: 'Three', icon: require('./../assets/jaguar.png') },
@@ -40,6 +37,9 @@ class SimpleCarousel extends React.Component {
       { name: 'Thirteen', icon: require('./../assets/lion.png') },
       { name: 'Fourteen', icon: require('./../assets/wolf.png') },
       { name: 'Fifteen', icon: require('./../assets/jaguar.png') },
+      { name: 'Sixteen', icon: require('./../assets/lion.png') },
+      { name: 'Seventeen', icon: require('./../assets/wolf.png') },
+      { name: 'Eighteen', icon: require('./../assets/jaguar.png') },
     ],
   };
 

@@ -40,7 +40,7 @@ const styles = {
     borderRightWidth: 100,
     borderTopWidth: 60,
     borderRightColor: 'transparent',
-    borderTopColor: 'red',
+    borderTopColor: '#0d7966',
   },
   collidingArea: {
     backgroundColor: 'green',
