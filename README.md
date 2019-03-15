@@ -2,7 +2,7 @@
 
 Circular Carousal for use on iOS and Android.
 
-![Demo](./carousel.gif)
+![Demo](./demo.gif)
 
 ## Installation
 
