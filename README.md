@@ -2,6 +2,8 @@
 
 Circular Carousal for use on iOS and Android.
 
+![Demo](./carousel.gif)
+
 ## Installation
 
 Open a Terminal in your project's folder and run,
